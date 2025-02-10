@@ -517,6 +517,7 @@
 
     async function showSongs(songsList) {
       currentPlaylist = [];
+      currentSongId = 0;
       playListIndex = 0;
       const songsListContainer = document.getElementById('song-list');
       songsListContainer.innerHTML = '';
@@ -582,6 +583,10 @@
         if (data.success) {
           const songsList = data.data;
 
+          console.log('deleting current playlist -', currentPlaylist);
+          currentPlaylist = [];
+          playListIndex = 0;
+
           const songsListContainer = document.getElementById('song-list');
           songsListContainer.innerHTML = '';
 
@@ -617,6 +622,7 @@
             });
           }
 
+          console.log('added current playlist -', currentPlaylist);
           currentNav('song-bar');
           showSongList(event);
         }
