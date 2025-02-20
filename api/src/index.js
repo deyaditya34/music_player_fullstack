@@ -24,6 +24,7 @@ async function start() {
     credentials: true
   }));
   server.use(express.json());
+  server.use(express.urlencoded({extended: true}))
 
   server.use('/songs', songsRouter);
   server.use('/artists', artistRouter);

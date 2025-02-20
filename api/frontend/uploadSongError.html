@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Music Player</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="search-bar">
+        <input
+          type="text"
+          placeholder="search for your favorite songs.."
+          id="search-song" />
+        <button id="search-button">search</button>
+      </div>
+      <div id="nav-bar">
+        <div class="nav" id="song-bar">
+          <a href="/" id="song-tab">Songs</a>
+        </div>
+        <div class="nav" id="artist-bar">
+          <a href="/" id="artist-tab">Artists</a>
+        </div>
+        <div class="nav" id="genre-bar">
+          <a href="/" id="genre-tab">Genres</a>
+        </div>
+        <div class="nav" id="upload-bar">
+          <a href="/" id="upload-tab">Uploads</a>
+        </div>
+      </div>
+      <div id="upload-section">
+        <div class="upload-confirmation" id="upload-confirmation">
+          <p>Error while uploading the song.</p>
+        </div>
+      </div>
+    </div>
+    <div id="music-player-section">
+      <div id="music-seek">
+        <input type="range" name="range" min="1" max="100" id="range" />
+      </div>
+      <div id="music-player-cont">
+        <div id="music-player">
+          <div id="shuffle-button-cont">
+            <img src="/shuffle.png" id="shuffle-button" />
+          </div>
+          <div id="prev-button-cont">
+            <img src="/previous.png" id="prev-button" />
+          </div>
+          <div id="play-button-cont">
+            <img src="/play-button.png" id="play-button" />
+          </div>
+          <div id="next-button-cont">
+            <img src="/next-button.png" id="next-button" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,12 +1,12 @@
 const httpError = require('http-errors');
 const fs = require('fs');
-const ffmpeg = require('fluent-ffmpeg');
-const ffprobePath = require('@ffprobe-installer/ffprobe').path;
 
-const songService = require('./songs.service');
+const nameFormatter = require('../api-utils/nameFormatter');
 const artistService = require('../artists/artist.service');
 const genreService = require('../genres/genre.service');
-const nameFormatter = require('../api-utils/nameFormatter');
+const songUtils = require('../api-utils/songUtils');
+const songService = require('./songs.service');
+const config = require('../config');
 
 async function controller(req, res) {
   const file = req.file;
@@ -25,15 +25,15 @@ async function controller(req, res) {
   );
   songData.songName = nameFormatter(songName) + songExtension;
 
-  // Fixing the upload file for proper streaming
-  fs.renameSync(file.path, `uploads/${songData.songName}`);
+  // Renaming the upload file
+  fs.renameSync(file.path, `${config.UPLOADS_DIR}/${songData.songName}`);
 
   songData.artistName = nameFormatter(artistName);
   songData.genres = nameFormatter(genres).split(',');
-  songData.filePath = `uploads/${songData.songName}`;
+  songData.filePath = `${config.UPLOADS_DIR}/${songData.songName}`;
   const songStats = fs.statSync(songData.filePath);
   songData.fileSize = songStats.size;
-  songData.duration = await getDurationFromBuffer(songData.filePath);
+  songData.duration = await songUtils.getDurationFromBuffer(songData.filePath);
 
   // Checking whether the song already exists in the DB
   const songNameExist = await songService.findOneSongByName({
@@ -45,7 +45,7 @@ async function controller(req, res) {
   }
 
   // Formatting the genre and filtering the duplicate genres in the DB
-  const genreFormatted = genreFormatter(songData.genres);
+  const genreFormatted = songUtils.genreFormatter(songData.genres);
   let genreFiltered = [];
   for (const genre of genreFormatted) {
     const existGenre = await genreService.findOneGenre(genre);
@@ -74,29 +74,6 @@ async function controller(req, res) {
     : '';
 
   return res.redirect('/uploadSuccessful.html');
-}
-
-function genreFormatter(genres = []) {
-  let result = [];
-
-  genres.forEach((genre) => {
-    result.push({ genreName: genre });
-  });
-
-  return result;
-}
-
-function getDurationFromBuffer(buffer) {
-  return new Promise((resolve, reject) => {
-    ffmpeg.setFfprobePath(ffprobePath);
-    ffmpeg.ffprobe(buffer, (err, metadata) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(metadata.format.duration);
-    });
-  });
 }
 
 module.exports = controller;

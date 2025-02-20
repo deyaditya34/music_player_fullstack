@@ -19,7 +19,7 @@ async function searchSongByName(songName) {
 async function findOneSongByName(songName) {
   return database
     .getCollectionName(config.COLLECTION_NAME_SONGS)
-    .findOne(songName);
+    .findOne({ songName });
 }
 
 async function findSongsByArtistName(artistName) {
@@ -55,6 +55,12 @@ async function findoneSongById(id) {
     .findOne({ _id: new ObjectId(id) });
 }
 
+async function deleteSongByName(songName) {
+  return database
+    .getCollectionName(config.COLLECTION_NAME_SONGS)
+    .deleteOne({ songName });
+}
+
 module.exports = {
   insertSong,
   findOneSongByName,
@@ -63,4 +69,5 @@ module.exports = {
   findSongsByGenreName,
   findMostRecentlySongs,
   searchSongByName,
+  deleteSongByName,
 };
