@@ -392,7 +392,7 @@
           const genreListElement = document.getElementById('genre-list');
           genreListElement.innerHTML = '';
 
-          const response = await fetch('http://127.0.0.1:8090/genres/list', {
+          const response = await fetch('/genres/list', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -432,7 +432,7 @@
           const artistListElement = document.getElementById('artist-list');
           artistListElement.innerHTML = '';
 
-          const response = await fetch('http://127.0.0.1:8090/artists/list', {
+          const response = await fetch('/artists/list', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
