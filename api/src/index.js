@@ -22,7 +22,7 @@ async function start() {
 
   server.use(
     cors({
-      origin: ["http://localhost:8090", "http://localhost:5500"],
+      origin: "player.adityadey.com",
       credentials: true,
     })
   );
