@@ -52,8 +52,8 @@
             mode: 'cors',
           });
 
-          const data = response.json();
-
+          const data = await response.json();
+          
           if (data.success === true) {
             alert(data.message);
             window.location.href = 'player.html';
