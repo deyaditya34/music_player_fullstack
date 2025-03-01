@@ -8,12 +8,13 @@ function userResolver(req, res, next) {
 
   if (!token) {
     next(new httpError.Forbidden('Access Denied'));
+    return;
   }
 
   const { username } = jwtService.decodeToken(token);
   if (username !== config.USERNAME) {
-    console.log("username is", username);
     next(new httpError.Unauthorized('Invalid token'));
+    return;
   }
 
   next();

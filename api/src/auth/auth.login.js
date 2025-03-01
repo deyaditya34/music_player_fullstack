@@ -8,10 +8,12 @@ async function controller(req, res, next) {
 
   if (!username || !password) {
     next(new httpError.BadRequest('Username or password missing'));
+    return;
   }
   console.log(config.USERNAME);
   if (username !== config.USERNAME || password !== config.PASSWORD) {
     next(new httpError.BadRequest('username or password does not match'));
+    return;
   }
 
   const token = jwtService.createToken({ username });
