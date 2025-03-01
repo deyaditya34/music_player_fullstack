@@ -87,8 +87,6 @@ a {
 #song-name,
 #artist-name,
 #genres-name
-/* #submit,
-#linkSubmit */
 {
   border-radius: 5px;
   border-style: hidden;
@@ -115,7 +113,6 @@ a {
   text-align: left;
   display: grid;
   grid-template-columns: 30% 60%;
-  /* padding-left: 10px; */
   margin: 10px;
 }
 

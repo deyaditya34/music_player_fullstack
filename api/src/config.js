@@ -9,4 +9,7 @@ module.exports = {
   COLLECTION_NAME_GENRES: process.env.COLLECTION_NAME_GENRES,
   UPLOADS_DIR: process.env.UPLOADS_DIR,
   UPLOADS_DIR_TEMP: process.env.UPLOADS_DIR_TEMP,
+  JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+  USERNAME: process.env.username,
+  PASSWORD: process.env.password
 };

@@ -1,0 +1,42 @@
+body {
+  background-color: rgb(2, 39, 48);
+  color: rgb(247, 247, 88);
+  font-family: sans-serif;
+}
+
+.container {
+  max-width: 420px;
+  text-align: center;
+}
+
+.login-section {
+  margin-top: 100px;
+  /* height: 78vh; */
+  border-radius: 5px;
+  border: 2px solid rgb(217, 95, 8);
+  padding-bottom: 30px;
+}
+
+#login-form {
+  margin: 30px 5px 0px 5px;
+  padding-top: 20px;
+  padding-left: 5px;
+  border-radius: 20px;
+  background-color: rgb(7, 57, 69);
+}
+
+.form-field {
+  font-size: 15px;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 30% 60%;
+  margin: 10px;
+}
+
+#submit {
+  color: rgb(2, 39, 48);
+  margin: 15px 0px 15px 0px;
+  padding: 4px 10px;
+  font-weight: bold;
+  cursor: pointer;
+}

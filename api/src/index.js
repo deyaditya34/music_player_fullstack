@@ -10,6 +10,7 @@ const errorHandler = require('./api-utils/errorHandler');
 const songsRouter = require('./songs/songs.router.api');
 const artistRouter = require('./artists/artist.router.api');
 const genreRouter = require('./genres/genre.router.api');
+const authRouter = require('./auth/auth.router.api');
 
 async function start() {
   console.log('Initializing database...');
@@ -19,13 +20,16 @@ async function start() {
   const server = new express();
   console.log('Server started...');
 
-  server.use(cors({
-    origin: "http://localhost:8090",
-    credentials: true
-  }));
+  server.use(
+    cors({
+      origin: ["http://localhost:8090", "http://localhost:5500"],
+      credentials: true,
+    })
+  );
   server.use(express.json());
-  server.use(express.urlencoded({extended: true}))
+  server.use(express.urlencoded({ extended: true }));
 
+  server.use('/auth', authRouter);
   server.use('/songs', songsRouter);
   server.use('/artists', artistRouter);
   server.use('/genres', genreRouter);

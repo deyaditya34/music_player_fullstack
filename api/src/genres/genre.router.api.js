@@ -1,9 +1,10 @@
-const express = require("express");
+const express = require('express');
 
-const listGenreApi = require("./listGenre.api");
+const listGenreApi = require('./listGenre.api');
+const userResolver = require('../middlewares/userResolver');
 
 const router = express.Router();
 
-router.get("/list", listGenreApi);
+router.get('/list', userResolver, listGenreApi);
 
 module.exports = router;

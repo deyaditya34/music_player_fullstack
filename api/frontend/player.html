@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" type="image/x-icon" href="favicon.jpg" />
+    <title>Music Player</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="search-bar">
+        <input
+          type="text"
+          placeholder="search for your favorite songs.."
+          id="search-song" />
+        <button id="search-button">search</button>
+      </div>
+      <div id="nav-bar">
+        <div class="nav" id="song-bar" onclick="currentNav(this.id)">
+          <a href="#" id="song-tab" onclick="showSongList(event)">Songs</a>
+        </div>
+        <div class="nav" id="artist-bar" onclick="currentNav(this.id)">
+          <a href="#" id="artist-tab" onclick="showArtistList(event)"
+            >Artists</a
+          >
+        </div>
+        <div class="nav" id="genre-bar" onclick="currentNav(this.id)">
+          <a href="#" id="genre-tab" onclick="showGenreList(event)">Genres</a>
+        </div>
+        <div class="nav" id="upload-bar" onclick="currentNav(this.id)">
+          <a href="#" id="upload-tab" onclick="showUploadSection(event)"
+            >Uploads</a
+          >
+        </div>
+      </div>
+      <div id="song-list">
+        <!-- <div class="song" id="1" onclick="playSong(this.id)">
+          <p class="song-name">Uka Uka Mur Sohor</p>
+          <p class="artist-name">Alakesh Dutta</p>
+          <p class="song-duration">3:55</p>
+        </div>
+        <div class="song" id="7" onclick="playSong(this.id)">
+          <p class="song-name">Uka Uka Mur Sohor</p>
+          <p class="artist-name">Alakesh Dutta</p>
+          <p class="song-duration">3:55</p>
+        </div> -->
+      </div>
+      <div id="artist-list">
+        <div class="artist" id="artist-1" onclick="changeArtist(this.id)">
+          <p class="artist-list-name">Alakesh Dutta</p>
+        </div>
+        <div class="artist" id="artist-2" onclick="changeArtist(this.id)">
+          <p class="artist-list-name">Led Zepplin</p>
+        </div>
+        <div class="artist" id="artist-3" onclick="changeArtist(this.id)">
+          <p class="artist-list-name">Alakesh Dutta</p>
+        </div>
+      </div>
+      <div id="genre-list">
+        <div class="genre" id="genre-1" onclick="changeGenre(this.id)">
+          <p class="genre-name">Classic Rock</p>
+        </div>
+        <div class="genre" id="genre-2" onclick="changeGenre(this.id)">
+          <p class="genre-name">Folk Rock</p>
+        </div>
+        <div class="genre" id="genre-3" onclick="changeGenre(this.id)">
+          <p class="genre-name">Assamese</p>
+        </div>
+      </div>
+      <div id="upload-section">
+        <div id="upload-inside-cont">
+          <form
+            method="post"
+            action="/songs/upload"
+            enctype="multipart/form-data">
+            <div class="form-field">
+              <label for="file">Upload a Song</label>
+              <input type="file" name="file" id="upload-file" required />
+            </div>
+            <div class="form-field">
+              <label for="songName">Song Name</label>
+              <input type="text" name="songName" id="song-name" required />
+            </div>
+            <div class="form-field">
+              <label for="artistName">Artist Name</label>
+              <input type="text" name="artistName" id="artist-name" required />
+            </div>
+            <div class="form-field">
+              <label for="genres">Genres</label>
+              <input type="text" name="genres" id="genres-name" required />
+            </div>
+            <div class="upload-song">
+              <input type="submit" name="submit" id="submit" value="Upload" />
+            </div>
+          </form>
+        </div>
+        <div class="upload-confirmation hidden" id="upload-confirmation">
+          <p>THANK YOU FOR UPLOADING THE SONG.</p>
+        </div>
+        <div id="upload-link-cont">
+          <form
+            method="post"
+            action="/songs/upload-link"
+            enctype="application/x-www-form-urlencoded">
+            <div class="form-field">
+              <label for="fileLink">Youtube Video Link</label>
+              <input type="text" name="fileLink" id="link" required />
+            </div>
+            <div class="form-field">
+              <label for="songName">Song Name</label>
+              <input type="text" name="songName" id="song-name" required />
+            </div>
+            <div class="form-field">
+              <label for="artistName">Artist Name</label>
+              <input type="text" name="artistName" id="artist-name" required />
+            </div>
+            <div class="form-field">
+              <label for="genres">Genres</label>
+              <input type="text" name="genres" id="genres-name" required />
+            </div>
+            <div class="upload-song">
+              <input
+                type="submit"
+                name="submit"
+                id="linkSubmit"
+                value="Upload" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div id="music-player-section">
+      <div id="music-seek">
+        <input
+          type="range"
+          name="range"
+          min="1"
+          max="100"
+          id="range"
+          value="0" />
+      </div>
+      <div id="music-player-cont">
+        <div id="music-player">
+          <div id="shuffle-button-cont">
+            <img
+              src="/shuffle.png"
+              id="shuffle-button"
+              onclick="clickShuffleButton(event)" />
+          </div>
+          <div id="prev-button-cont">
+            <img
+              src="/previous.png"
+              id="prev-button"
+              onclick="clickPrevButton(event)" />
+          </div>
+          <div id="play-button-cont">
+            <img
+              src="/play-button.png"
+              id="play-button"
+              onclick="await clickPlayButton(event)" />
+          </div>
+          <div id="next-button-cont">
+            <img
+              src="/next-button.png"
+              id="next-button"
+              onclick="clickNextButton(event)" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let songList = document.getElementById('song-list');
+    const artistList = document.getElementById('artist-list');
+    const genreList = document.getElementById('genre-list');
+    const uploadSection = document.getElementById('upload-section');
+    let currentPlaylist = [];
+    let playListIndex = 0;
+    let currentSongId = 0;
+    let currentNavBarId = 0;
+    const audioElem = new Audio();
+    audioElem.id = 'current-audio';
+    let shuffleMode = false;
+
+    artistList.style.display = 'none';
+    genreList.style.display = 'none';
+    uploadSection.style.display = 'none';
+
+    document
+      .getElementById('search-button')
+      .addEventListener('click', async () => {
+        searchSong(event);
+      });
+
+    document.getElementById('song-tab').addEventListener('click', async () => {
+      mostRecentSongs(event);
+    });
+
+    document
+      .getElementById('artist-tab')
+      .addEventListener('click', async () => {
+        onClickNav('artist-tab');
+      });
+
+    document.getElementById('genre-tab').addEventListener('click', async () => {
+      onClickNav('genre-tab');
+    });
+
+    function currentNav(id) {
+      if (currentNavBarId) {
+        const previousNavBar = document.getElementById(currentNavBarId);
+        previousNavBar.classList.add('nav');
+        previousNavBar.classList.remove('current-nav');
+      }
+
+      currentNavBarId = id;
+      const currentNavBar = document.getElementById(id);
+      currentNavBar.classList.remove('nav');
+      currentNavBar.classList.add('current-nav');
+    }
+
+    async function showSongList(event) {
+      if (event) event.preventDefault();
+      artistList.style.display = 'none';
+      genreList.style.display = 'none';
+      uploadSection.style.display = 'none';
+      songList.style.display = 'block';
+    }
+
+    function showArtistList(event) {
+      if (event) event.preventDefault();
+      genreList.style.display = 'none';
+      uploadSection.style.display = 'none';
+      songList.style.display = 'none';
+      artistList.style.display = 'block';
+    }
+
+    function showGenreList(event) {
+      if (event) event.preventDefault();
+      songList.style.display = 'none';
+      artistList.style.display = 'none';
+      uploadSection.style.display = 'none';
+      genreList.style.display = 'block';
+    }
+
+    function showUploadSection(event) {
+      if (event) event.preventDefault();
+      songList.style.display = 'none';
+      artistList.style.display = 'none';
+      genreList.style.display = 'none';
+      uploadSection.style.display = 'block';
+    }
+
+    async function clickPlayButton(event) {
+      if (event) {
+        event.preventDefault();
+      }
+      const playButton = document.getElementById('play-button');
+      playButton.classList.toggle('add-border-play-button');
+
+      if (audioElem.paused) {
+        await audioElem.play();
+      } else {
+        await audioElem.pause();
+      }
+    }
+
+    function clickShuffleButton(event) {
+      if (event) {
+        event.preventDefault();
+      }
+      const shuffleButton = document.getElementById('shuffle-button');
+      shuffleButton.classList.toggle('add-border');
+      shuffleMode = !shuffleMode;
+    }
+
+    function clickPrevButton(event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      const prevButton = document.getElementById('prev-button');
+      prevButton.classList.toggle('add-border');
+
+      setTimeout(() => {
+        prevButton.classList.toggle('add-border');
+      }, 200);
+
+      if (shuffleMode) {
+        playListIndex = Math.floor(Math.random() * currentPlaylist.length) || 0;
+      } else {
+        if (playListIndex > 0) {
+          playListIndex -= 1;
+        }
+      }
+      playSong(currentPlaylist[playListIndex]);
+    }
+
+    function clickNextButton(event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      const nextButton = document.getElementById('next-button');
+      nextButton.classList.toggle('add-border');
+
+      setTimeout(() => {
+        nextButton.classList.toggle('add-border');
+      }, 200);
+
+      if (shuffleMode) {
+        playListIndex = Math.floor(Math.random() * currentPlaylist.length) || 0;
+      } else {
+        if (playListIndex <= currentPlaylist.length) {
+          playListIndex += 1;
+        }
+      }
+      playSong(currentPlaylist[playListIndex]);
+    }
+
+    function playSong(id) {
+      currentPlaylist.forEach((songId, index) => {
+        if (songId === id) {
+          playListIndex = index;
+        }
+      });
+      if (currentSongId) {
+        let previousSongElement = document.getElementById(currentSongId);
+        previousSongElement.classList.remove('play-song');
+        previousSongElement.classList.add('song');
+      }
+      currentSongId = id;
+      const songElement = document.getElementById(id);
+      songElement.classList.remove('song');
+      songElement.classList.add('play-song');
+
+      const playBtn = document.getElementById('play-button');
+      const seekSlider = document.getElementById('range');
+
+      playBtn.classList.add('add-border-play-button');
+
+      audioElem.src = `/songs/${id}`;
+      audioElem.loop = true;
+      audioElem.play();
+
+      playBtn.addEventListener('click', clickPlayButton);
+
+      setInterval(() => {
+        if (!audioElem.paused) {
+          seekSlider.value =
+            (audioElem.currentTime / audioElem.duration) * 100 || 0;
+        }
+      }, 1000);
+
+      seekSlider.addEventListener('input', () => {
+        audioElemSeeking = true;
+
+        let audioSeekTime = (seekSlider.value / 100) * audioElem.duration;
+        audioElem.currentTime = audioSeekTime;
+      });
+    }
+
+    function changeArtist(id) {
+      const currentArtist = document.getElementById(id);
+      currentArtist.classList.add('current-artist');
+
+      setTimeout(() => {
+        currentArtist.classList.remove('current-artist');
+      }, 100);
+    }
+
+    function changeGenre(id) {
+      const currentGenre = document.getElementById(id);
+      currentGenre.classList.add('current-genre');
+
+      setTimeout(() => {
+        currentGenre.classList.remove('current-genre');
+      }, 100);
+    }
+
+    async function onClickNav(id) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      if (id === 'genre-tab') {
+        try {
+          const genreListElement = document.getElementById('genre-list');
+          genreListElement.innerHTML = '';
+
+          const response = await fetch('/genres/list', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+          const data = await response.json();
+          let genreList;
+
+          if (data.success) {
+            genreList = data.data;
+
+            for (let i = 0; i < genreList.length; i++) {
+              const genreNameElement = document.createElement('p');
+              genreNameElement.className = 'genre-name';
+              genreNameElement.innerHTML = genreList[i].genreName;
+
+              const genreElement = document.createElement('div');
+              genreElement.id = `genre-${i}`;
+              genreElement.className = 'genre';
+
+              genreElement.appendChild(genreNameElement);
+              genreListElement.appendChild(genreElement);
+              genreElement.addEventListener('click', () => {
+                changeGenre(genreElement.id);
+                onClickGenreName(genreNameElement.innerHTML);
+              });
+            }
+          }
+        } catch (err) {
+          console.log('error in fetching genre list -', err);
+        }
+      } else if (id === 'artist-tab') {
+        try {
+          const artistListElement = document.getElementById('artist-list');
+          artistListElement.innerHTML = '';
+
+          const response = await fetch('/artists/list', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+            credentials: 'include',
+          });
+
+          const data = await response.json();
+          let artistList;
+
+          if (data.success) {
+            artistList = data.data;
+
+            for (let i = 0; i < artistList.length; i++) {
+              const artistNameElement = document.createElement('p');
+              artistNameElement.className = 'artist-list-name';
+              artistNameElement.innerHTML = artistList[i].artistName;
+
+              const artistElement = document.createElement('div');
+              artistElement.id = `artist-${i}`;
+              artistElement.className = 'artist';
+
+              artistElement.appendChild(artistNameElement);
+              artistListElement.appendChild(artistElement);
+
+              artistElement.addEventListener('click', () => {
+                changeArtist(artistElement.id);
+                onClickArtistName(artistNameElement.innerHTML);
+              });
+            }
+          }
+        } catch (err) {
+          console.log('error in fetching artist list -', err);
+        }
+      }
+    }
+
+    async function onClickArtistName(artistName) {
+      try {
+        const response = await fetch(
+          `songs/artist?artistName=${artistName}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+            credentials: 'include',
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          const songsList = data.data;
+          showSongs(songsList);
+        }
+      } catch (err) {
+        console.log('error while fetching songs list from artist name -', err);
+      }
+    }
+
+    async function onClickGenreName(genreName) {
+      try {
+        const response = await fetch(
+          `/songs/genre?genreName=${genreName}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+            credentials: 'include',
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          const songList = data.data;
+          showSongs(songList);
+        }
+      } catch (err) {
+        console.log('error while fetching songs list from genre name -', err);
+      }
+    }
+
+    async function showSongs(songsList) {
+      currentPlaylist = [];
+      currentSongId = 0;
+      playListIndex = 0;
+      const songsListContainer = document.getElementById('song-list');
+      songsListContainer.innerHTML = '';
+
+      for (let i = 0; i < songsList.length; i++) {
+        currentPlaylist.push(songsList[i]._id);
+        const songNameElement = document.createElement('p');
+        songNameElement.className = 'song-name';
+        songNameElement.innerHTML = songsList[i].songName;
+
+        const songArtistElement = document.createElement('p');
+        songArtistElement.className = 'artist-name';
+        songArtistElement.innerHTML = songsList[i].artistName;
+
+        const songDurationElement = document.createElement('p');
+        songDurationElement.className = 'song-duration';
+        songDurationElement.innerHTML = (Number(songsList[i].duration) / 60)
+          .toFixed(2)
+          .toString()
+          .replace('.', ':');
+
+        const songContainer = document.createElement('div');
+        songContainer.id = songsList[i]._id;
+        songContainer.className = 'song';
+
+        songContainer.appendChild(songNameElement);
+        songContainer.appendChild(songArtistElement);
+        songContainer.appendChild(songDurationElement);
+
+        songsListContainer.appendChild(songContainer);
+
+        songContainer.addEventListener('click', () => {
+          playSong(songContainer.id);
+        });
+      }
+
+      currentNav('song-bar');
+      showSongList(event);
+    }
+
+    async function mostRecentSongs(event) {
+      if (event) {
+        event.preventDefault();
+      }
+      currentPlaylist = [];
+      playListIndex = 0;
+
+      try {
+        const response = await fetch(
+          '/songs/recentlyAdded',
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            mode: 'cors',
+            credentials: 'include',
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          const songsList = data.data;
+
+          console.log('deleting current playlist -', currentPlaylist);
+          currentPlaylist = [];
+          playListIndex = 0;
+
+          const songsListContainer = document.getElementById('song-list');
+          songsListContainer.innerHTML = '';
+
+          for (let i = 0; i < songsList.length; i++) {
+            currentPlaylist.push(songsList[i]._id);
+            const songNameElement = document.createElement('p');
+            songNameElement.className = 'song-name';
+            songNameElement.innerHTML = songsList[i].songName;
+
+            const songArtistElement = document.createElement('p');
+            songArtistElement.className = 'artist-name';
+            songArtistElement.innerHTML = songsList[i].artistName;
+
+            const songDurationElement = document.createElement('p');
+            songDurationElement.className = 'song-duration';
+            songDurationElement.innerHTML = (Number(songsList[i].duration) / 60)
+              .toFixed(2)
+              .toString()
+              .replace('.', ':');
+
+            const songContainer = document.createElement('div');
+            songContainer.id = songsList[i]._id;
+            songContainer.className = 'song';
+
+            songContainer.appendChild(songNameElement);
+            songContainer.appendChild(songArtistElement);
+            songContainer.appendChild(songDurationElement);
+
+            songsListContainer.appendChild(songContainer);
+
+            songContainer.addEventListener('click', () => {
+              playSong(songContainer.id);
+            });
+          }
+
+          console.log('added current playlist -', currentPlaylist);
+          currentNav('song-bar');
+          showSongList(event);
+        }
+      } catch (err) {
+        console.log('error while updating the recently added songs -', err);
+      }
+    }
+
+    async function searchSong(event) {
+      if (event) {
+        event.preventDefault();
+      }
+
+      let searchInput = document.getElementById('search-song');
+      const searchSong = searchInput.value;
+
+      if (searchSong) {
+        try {
+          const response = await fetch(
+            `/songs/search?searchSong=${searchSong}`,
+            {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              mode: 'cors',
+              credentials: 'include',
+            }
+          );
+
+          const data = await response.json();
+
+          if (data.success) {
+            const songList = data.data;
+            showSongs(songList);
+            searchInput.value = '';
+          }
+        } catch (err) {
+          console.log('error while searching for song -', err);
+        }
+      }
+    }
+  </script>
+</html>
