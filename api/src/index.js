@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require("cookie-parser");
 const cors = require('cors');
 
 const config = require('./config');
@@ -22,10 +23,13 @@ async function start() {
 
   server.use(
     cors({
-      origin: "player.adityadey.com",
+      origin: ["https://player.adityadey.com", "https://www.player.adityadey.com"],
       credentials: true,
     })
   );
+
+  server.use(cookieParser())
+
   server.use(express.json());
   server.use(express.urlencoded({ extended: true }));
 
