@@ -53,12 +53,12 @@
           });
 
           const data = await response.json();
-          
-          if (data.success === true) {
+
+          if (data.success === false) {
             alert(data.message);
-            window.location.href = '/player.html';
           } else {
-            alert('username/password combo incorrect');
+            window.location.href = '/player.html';
+            // alert('username/password combo incorrect');
           }
         } catch (err) {
           console.log('error during login -', err);
