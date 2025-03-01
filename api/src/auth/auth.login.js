@@ -10,7 +10,7 @@ async function controller(req, res, next) {
     next(new httpError.BadRequest('Username or password missing'));
     return;
   }
-  console.log(config.USERNAME);
+  
   if (username !== config.USERNAME || password !== config.PASSWORD) {
     next(new httpError.BadRequest('username or password does not match'));
     return;
@@ -24,10 +24,7 @@ async function controller(req, res, next) {
     sameSite: 'None',
   });
 
-  res.json({
-    success: true,
-    message: 'login successful'
-  })
+  return res.redirect("/player.html")
 }
 
 module.exports = controller;
