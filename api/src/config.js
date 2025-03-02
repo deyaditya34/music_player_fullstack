@@ -10,6 +10,6 @@ module.exports = {
   UPLOADS_DIR: process.env.UPLOADS_DIR,
   UPLOADS_DIR_TEMP: process.env.UPLOADS_DIR_TEMP,
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
-  USERNAME: process.env.username,
+  ABC: process.env.xyz,
   PASSWORD: process.env.password
 };

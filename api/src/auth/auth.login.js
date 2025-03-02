@@ -10,8 +10,8 @@ async function controller(req, res, next) {
     next(new httpError.BadRequest('Username or password missing'));
     return;
   }
-
-  if (username !== config.USERNAME || password !== config.PASSWORD) {
+	console.log(username, config.ABC, password, config.PASSWORD, username.length, config.ABC.length, password.length, config.PASSWORD.length);
+  if (username !== config.ABC || password !== config.PASSWORD) {
     next(new httpError.BadRequest('username or password does not match'));
     return;
   }

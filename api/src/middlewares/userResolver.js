@@ -12,7 +12,7 @@ function userResolver(req, res, next) {
   }
 
   const { username } = jwtService.decodeToken(token);
-  if (username !== config.USERNAME) {
+  if (username !== config.NAME) {
     next(new httpError.Unauthorized('Invalid token'));
     return;
   }
